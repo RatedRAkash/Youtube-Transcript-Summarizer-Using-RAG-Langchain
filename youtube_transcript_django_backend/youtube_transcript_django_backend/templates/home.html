@@ -17,7 +17,6 @@
       <h1>YouTube Transcript Summarizer using RAG</h1>
     </div>
 
-
     <form id="ragForm">
       {% csrf_token %}
 
@@ -36,44 +35,18 @@
 
       <div id="summarySection">
         <h2>Summary</h2>
+
+        <!--  Loader  -->
+        <div id="loader" style="display: none; text-align: center;">
+          <div class="spinner"></div>
+          <p>Loading...</p>
+        </div>
+
         <p id="summaryOutput">Your summary will appear here...</p>
       </div>
 
-    <script>
-    document.getElementById('ragForm').addEventListener('submit', function (e) {
-      e.preventDefault(); // ⛔ Prevent default form submission
-
-      const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-      const youtubeLink = document.getElementById('youtubeLink').value;
-      const query = document.getElementById('query').value;
-
-      // Call your backend API via AJAX
-      fetch("{% url 'api/get-summary' %}", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'X-CSRFToken': csrfToken,
-        },
-        body: new URLSearchParams({
-          youtube_url: youtubeLink,
-          user_query: query,
-        })
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.summary) {
-          document.getElementById('summaryOutput').innerText = data.summary;
-        } else if (data.errors) {
-          document.getElementById('summaryOutput').innerText = 'Form error: ' + JSON.stringify(data.errors);
-        }
-      })
-      .catch(error => {
-        document.getElementById('summaryOutput').innerText = 'Request failed: ' + error;
-      });
-    });
-  </script>
-
-
+    <!-- External JS loaded at the end for best performance -->
+    <script src="{% static 'js/ragApiCall.js' %}"></script>
 
 </body>
 </html>
