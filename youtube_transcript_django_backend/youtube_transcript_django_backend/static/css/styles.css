@@ -1,0 +1,95 @@
+/* Dark Theme Reset */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #121212;
+  color: #e0e0e0;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  max-width: 750px;
+  background-color: #1e1e1e;
+  padding: 30px;
+  margin: 0 auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+/* Title Bar with Logo */
+.title-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.logo {
+  height: 40px;
+}
+
+/* Headings */
+h1, h2 {
+  color: #ffffff;
+  margin: 0;
+}
+
+/* Form Styles */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+label {
+  font-weight: 600;
+  color: #cccccc;
+}
+
+input[type="url"],
+input[type="text"] {
+  padding: 12px;
+  background-color: #2c2c2c;
+  color: #ffffff;
+  border: 1px solid #444;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: border 0.2s;
+}
+
+input[type="url"]:focus,
+input[type="text"]:focus {
+  border-color: #ff4e45;
+  outline: none;
+}
+
+button {
+  padding: 12px;
+  background: linear-gradient(45deg, #ff4e45, #ff0000);
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: linear-gradient(45deg, #ff6a60, #ff1a1a);
+}
+
+/* Summary Section */
+#summarySection {
+  margin-top: 30px;
+  background-color: #2a2a2a;
+  padding: 15px;
+  border-radius: 6px;
+  border: 1px solid #444;
+}
+
+#summaryOutput {
+  white-space: pre-wrap;
+  color: #d0d0d0;
+}

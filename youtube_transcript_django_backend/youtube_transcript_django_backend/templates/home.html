@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.6" />
+  <title>YouTube Transcript Summarizer using RAG</title>
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+</head>
+
+<body>
+  <div class="container">
+    <div class="title-bar">
+      <img src="{% static 'img/YouTube_Logo.png' %}" alt="YouTube Logo" class="logo" />
+      <h1>YouTube Transcript Summarizer using RAG</h1>
+    </div>
+
+
+    <form id="ragForm">
+      {% csrf_token %}
+
+      <label for="{{ youtube_transcript_form.youtube_url.id_for_label }}">
+        {{ youtube_transcript_form.youtube_url.label }}
+      </label>
+      {{ youtube_transcript_form.youtube_url }}
+
+      <label for="{{ youtube_transcript_form.user_query.id_for_label }}">
+        {{ youtube_transcript_form.user_query.label }}
+      </label>
+      {{ youtube_transcript_form.user_query }}
+
+      <button type="submit">Get Summary</button>
+      </form>
+
+      <div id="summarySection">
+        <h2>Summary</h2>
+        <p id="summaryOutput">Your summary will appear here...</p>
+      </div>
+
+    <script>
+    document.getElementById('ragForm').addEventListener('submit', function (e) {
+      e.preventDefault(); // ⛔ Prevent default form submission
+
+      const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+      const youtubeLink = document.getElementById('youtubeLink').value;
+      const query = document.getElementById('query').value;
+
+      // Call your backend API via AJAX
+      fetch("{% url 'api/get-summary' %}", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'X-CSRFToken': csrfToken,
+        },
+        body: new URLSearchParams({
+          youtube_url: youtubeLink,
+          user_query: query,
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.summary) {
+          document.getElementById('summaryOutput').innerText = data.summary;
+        } else if (data.errors) {
+          document.getElementById('summaryOutput').innerText = 'Form error: ' + JSON.stringify(data.errors);
+        }
+      })
+      .catch(error => {
+        document.getElementById('summaryOutput').innerText = 'Request failed: ' + error;
+      });
+    });
+  </script>
+
+
+
+</body>
+</html>
