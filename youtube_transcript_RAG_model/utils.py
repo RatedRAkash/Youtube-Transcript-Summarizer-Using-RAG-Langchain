@@ -31,8 +31,8 @@ def indexing_by_text_split(transcript: str):
     chunks = splitter.create_documents([transcript])
     return chunks
 
-def generate_embedding_and_save_in_vector_store(SAVE_MODEL_TO_PATH, chunks):
-    embeddings = MyLocalOllamaEmbeddings()
+def generate_embedding_and_save_in_vector_store(SAVE_MODEL_TO_PATH, chunks, model_name, model_endpoint):
+    embeddings = MyLocalOllamaEmbeddings(model=model_name, url=model_endpoint)
     vector_store = FAISS.from_documents(chunks, embeddings)
 
     # print("All documents in the vector store:\n")
@@ -48,9 +48,9 @@ def generate_embedding_and_save_in_vector_store(SAVE_MODEL_TO_PATH, chunks):
     vector_store.save_local(SAVE_MODEL_TO_PATH)
 
 
-def get_retriever_from_saved_model(LOAD_MODEL_PATH):
+def get_retriever_from_saved_model(LOAD_MODEL_PATH, model_name, model_endpoint):
     # Use the same embedding class you used during saving
-    embeddings = MyLocalOllamaEmbeddings(model="nomic-embed-text")
+    embeddings = MyLocalOllamaEmbeddings(model=model_name, url=model_endpoint)
 
     current_file_dir = os.path.dirname(os.path.abspath(__file__))
     LOAD_MODEL_PATH = os.path.join(current_file_dir, LOAD_MODEL_PATH)

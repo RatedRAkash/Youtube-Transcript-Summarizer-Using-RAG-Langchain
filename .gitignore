@@ -88,7 +88,8 @@ local_settings.py
 
 .vscode
 .env
-/django_docker_project/.env
+/youtube_transcript_RAG_model/.env
+/youtube_transcript_django_backend/.env
 /.venv
 *_venv/
 *venv/
