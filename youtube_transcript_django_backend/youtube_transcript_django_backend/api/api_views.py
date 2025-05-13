@@ -1,3 +1,5 @@
+import logging
+
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly, IsAdminUser
 from rest_framework.views import APIView
 
@@ -6,9 +8,10 @@ from rest_framework import status
 
 from ..forms import YoutubeTranscriptForm
 from .utils import extract_youtube_video_id
-from django.http import HttpResponse, JsonResponse
 
 from youtube_transcript_RAG_model.main import get_summary_main
+
+logger = logging.getLogger(__name__)
 
 class GetYoutubeTranscriptSummary(APIView):
     authentication_classes = []  # No authentication required
@@ -24,10 +27,12 @@ class GetYoutubeTranscriptSummary(APIView):
             user_query = form.cleaned_data['user_query']
 
             # Do something with the submitted data (e.g., call your summary logic)
-            print("YouTube URL:", youtube_url)
-            print("User Query:", user_query)
+            logging.info("YouTube URL: " + youtube_url)
+            logging.info("User Query: " + user_query)
 
             rag_summary = get_summary_main(extract_youtube_video_id(youtube_url), user_query)
+            logging.info("=============Summary=============\n" + rag_summary)
+
             return Response({'summary': rag_summary}, status=status.HTTP_200_OK)
 
         # If the form is not valid, re-render with errors

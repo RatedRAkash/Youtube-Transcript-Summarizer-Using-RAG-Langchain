@@ -5,6 +5,15 @@ from utils import *
 from dotenv import load_dotenv
 import os
 
+import logging
+# Basic configuration
+logging.basicConfig(
+    level=logging.INFO,  # Set level to DEBUG, INFO, WARNING, ERROR, or CRITICAL
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    filename='app.log',  # Logs to a file named 'app.log'
+    filemode='a'         # Append mode
+)
+
 # Load .env file from the current directory
 load_dotenv()
 
@@ -32,8 +41,8 @@ def get_summary_main(youtube_url_id, question):
 
     # retriever.invoke("PM and Sri Lanka")
     final_prompt = combine_context_and_user_query_to_get_final_augmented_prompt_text(retriever=retriever, question=question)
-    # print("=====================Final Augmented Prompt Passed to LLM========================\n")
-    # print(final_prompt)
+    # logging.info("=====================Final Augmented Prompt Passed to LLM========================\n")
+    # logging.info(final_prompt)
 
     # initializing Ollama LLM Model
     llm = OllamaLLM(model=LLM_MODEL)
@@ -41,11 +50,11 @@ def get_summary_main(youtube_url_id, question):
     # FINAL_QUESTION = "Can you summarize the video"
     final_answer = BuildChain().build_chain(retriever=retriever, prompt=final_prompt, llm=llm, question=FINAL_QUESTION)
 
+    logging.info("=====================Final Summary From Model========================\n" + final_answer)
+
     return final_answer
 
 
 # Main Function
 if __name__ == '__main__':
     final_answer = get_summary_main("uk6PY3v3038", "is the topic about Sri Lanka Crisis & Nadir on the Go")
-    print("=====================Final Summary========================\n")
-    print(final_answer)
