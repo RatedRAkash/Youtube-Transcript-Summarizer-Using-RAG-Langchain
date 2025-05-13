@@ -52,6 +52,15 @@ c) Start Ollama Server:
 ollama serve
 ```
 
+d) Configure with appropriate variables in `.env` of the `youtube_transcript_RAG_model` model:
+```bash
+LLM_MODEL = "llama3.1:8b"
+EMBEDDING_MODEL_NAME = "nomic-embed-text"
+EMBEDDING_MODEL_API_URL = "http://localhost:11434/api/embeddings"
+VECTOR_DATABASE_MODEL_PATH = "saved_model_faiss_store"
+FINAL_QUESTION = "Can you summarize the video"
+```
+
 ### 4. Start Django Server
 At first generate the Static Folders to serve static contents:
 ```bash
