@@ -8,7 +8,7 @@ document.getElementById('ragForm').addEventListener('submit', function (e) {
     loader.style.display = 'block'; // SHOW LOADER
     document.getElementById('summaryOutput').innerText = '' // Blank Text
 
-    // Call your backend API via AJAX
+    // Calling API via AJAX
     fetch("/api/get-summary", {
         method: 'POST',
         headers: {
